@@ -1,44 +1,42 @@
-# 👾 Emoji Scavenger Hunt 👾
+# 👾 Caça ao tesouro de emojis 👾
 
-Emoji Scavenger Hunt is an experimental web based game that makes use of TensorFlow.js to identify objects seen by your webcam or mobile camera in the browser. We show you emojis 🍌 ⏰ ☕️ 📱 and you have to find those objects in the real world before your timer runs out 🏆 👍.
+Emoji Scavenger Hunt é um jogo experimental baseado na web que usa TensorFlow.js para identificar objetos vistos por sua webcam ou câmera móvel no navegador. Mostramos emojis 🍌 ⏰ ☕️ 📱 e você deve encontrar esses objetos no mundo real antes que o tempo acabe 🏆 👍.
 
-Find out how we built this experiment by reading our [article](https://medium.com/tensorflow/a-look-at-how-we-built-the-emoji-scavenger-hunt-using-tensorflow-js-3d760a7ebfe6) on the Tensorflow blog or try it for yourself at [g.co/emojiscavengerhunt](http://g.co/emojiscavengerhunt).
-
-
+Descubra como construímos esse experimento lendo nosso [artigo](https://medium.com/tensorflow/a-look-at-how-we-built-the-emoji-scavenger-hunt-using-tensorflow-js- 3d760a7ebfe6) no blog do Tensorflow ou experimente você mesmo em [g.co/emojiscavengerhunt](http://g.co/emojiscavengerhunt).
 ## Development
 
 ```sh
 yarn prep
 ```
 
-Running `yarn prep` will use yarn to get the right packages and setup the right folders. If you don't have [yarn](https://yarnpkg.com/lang/en/docs/install/) you can install it via homebrew (for Mac). If you’re already running node/npm with nvm (our recommendation) you can install yarn without node using `brew install yarn --without-node`.
+Executar `yarn prep` usará o fio para obter os pacotes corretos e configurar as pastas corretas. Se você não possui o [yarn](https://yarnpkg.com/lang/en/docs/install/), você pode instalá-lo via homebrew (para Mac). Se você já está executando node/npm com nvm (nossa recomendação), você pode instalar o yarn sem node usando `brew install yarn --without-node`.
 
-In order to start local development we also require the installation of the [Google Cloud SDK](https://cloud.google.com/sdk/downloads) and associated [App Engine Components](https://cloud.google.com/appengine/docs/standard/python/download). These are used for the local webserver and pushing to app engine for static site hosting.
+Para iniciar o desenvolvimento local, também exigimos a instalação do [Google Cloud SDK](https://cloud.google.com/sdk/downloads) e dos [componentes do App Engine](https://cloud.google.com) associados /appengine/docs/standard/python/download). Eles são usados ​​para o servidor da web local e para envio ao mecanismo de aplicativo para hospedagem de site estático.
 
-Once you have both installed you can run the local development server with:
+Depois de instalar ambos, você pode executar o servidor de desenvolvimento local com:
 
 ```sh
 yarn dev
 ```
 
-This task uses `watchify` to continually watch for changes to JS and SASS files and recompiles them if any changes are detected. You can access the local development server at `http://localhost:3000/`
+Esta tarefa usa `watchify` para observar continuamente alterações nos arquivos JS e SASS e recompila-los se alguma alteração for detectada. Você pode acessar o servidor de desenvolvimento local em `http://localhost:3000/`
 
-When building assets for production use:
+Ao construir ativos para uso em produção:
 
 ```sh
 yarn build
 ```
 
-This will minify SASS and JS for serving in production.
+Isso reduzirá o SASS e o JS para servir na produção.
 
-## Build your own model
-You can build your own image recognition model by running a Docker container.
-Dockerfiles are in `training` directory.
+## Construa seu próprio modelo
+Você pode construir seu próprio modelo de reconhecimento de imagem executando um contêiner Docker.
+Dockerfiles estão no diretório `training`.
 
-Prepare images for training by dividing them into directories for each label
-name that you want to train.
-For example: the directory structure for training *cat* and *dog* will look as
-follows assuming image data is stored under `data/images`.
+Prepare imagens para treinamento dividindo-as em diretórios para cada etiqueta
+nome que você deseja treinar.
+Por exemplo: a estrutura de diretórios para treinamento *cat* e *dog* será semelhante a
+segue assumindo que os dados da imagem são armazenados em `data/images`.
 
 ```
 data
@@ -53,8 +51,8 @@ data
         └── ...
 ```
 
-Once the sample images are ready, you can kickstart the training by building and
-running the Docker container.
+Quando as imagens de amostra estiverem prontas, você poderá iniciar o treinamento criando e
+executando o contêiner Docker.
 
 ```
 $ cd training
@@ -62,42 +60,42 @@ $ docker build -t model-builder .
 $ docker run -v /path/to/data:/data -it model-builder
 ```
 
-After the training is completed, you'll see three files in the
-`data/saved_model_web` directory:
+Após a conclusão do treinamento, você verá três arquivos na área
+Diretório `data/saved_model_web`:
 
 - tensorflowjs_model.pb (the dataflow graph)
 - weights_manifest.json (weight manifest file)
 - group1-shard\*of\* (collection of binary weight files)
 
-They are SavedModel files in a web-friendly format converted by the
-[TensorFlow.js converter](https://github.com/tensorflow/tfjs-converter).
-You can build your own game using your own custom image recognition model by replacing
-the corresponding files under the `dist/model/` directory with the newly generated ones.
+Eles são arquivos SavedModel em um formato amigável para web, convertidos pelo
+[Conversor TensorFlow.js](https://github.com/tensorflow/tfjs-converter).
+Você pode criar seu próprio jogo usando seu próprio modelo de reconhecimento de imagem personalizado, substituindo
+os arquivos correspondentes no diretório `dist/model/` com os recém-gerados.
 
-The training script will also generate a file called `scavenger_classes.ts`
-which works in conjunction with your generated custom model.
-You need to replace the file at `src/js/scavenger_classes.ts` with this newly
-generated `scavenger_classes.ts` file so that the labels of your model match
-with the trained data.
-After replacing the file you can run the build script normally to test your
-model in a browser. See the README file for information on running a preview
-server.
+O script de treinamento também irá gerar um arquivo chamado `scavenger_classes.ts`
+que funciona em conjunto com seu modelo personalizado gerado.
+Você precisa substituir o arquivo em `src/js/scavenger_classes.ts` por este novo
+gerou o arquivo `scavenger_classes.ts` para que os rótulos do seu modelo correspondam
+com os dados treinados.
+Depois de substituir o arquivo você pode executar o script de construção normalmente para testar seu
+modelo em um navegador. Consulte o arquivo README para obter informações sobre como executar uma visualização
+servidor.
 
-Update the game logic in `src/js/game.ts` if needed.
+Atualize a lógica do jogo em `src/js/game.ts` se necessário.
 
-### Using GPU
-You can boost the training speed by utilizing your GPU.
-If you want to use the GPU for training, install
-[nvidia-docker](https://github.com/NVIDIA/nvidia-docker) and run:
+### Usando GPU
+Você pode aumentar a velocidade de treinamento utilizando sua GPU.
+Se você quiser usar a GPU para treinamento, instale
+[nvidia-docker](https://github.com/NVIDIA/nvidia-docker) e execute:
 ```
 $ cd training
 $ nvidia-docker build -f Dockerfile.gpu model-builder
 $ nvidia-docker run -v /path/to/data:/data -it model-builder
 ```
 
-## License
+## Licença
 
-Copyright 2018 Google LLC
+Direitos autorais 2018 Google LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
